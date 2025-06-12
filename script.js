@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const min = 1;
   const max = 100;
-  const maxAttempts = 5;
+  const maxAttempts = 7;
   let attempts = 0;
   let numberToGuess = generateNumber();
 
