@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<audio id="cheerSound" src="cheer.mp3" preload="auto"></audio>
+
+  <audio id="cheerSound" src="cheer.mp3" preload="auto"></audio>
 
 
-  <!-- Background animation -->
   <div class="background">
     <span class="num">1</span>
     <span class="num">2</span>
@@ -24,7 +24,7 @@
     <span class="num">0</span>
   </div>
 
-  <!-- Game container -->
+
   <div class="container">
     <h1>🎯 Guess The Number</h1>
     <p>Pick a number between <span id="min">1</span> and <span id="max">100</span></p>
@@ -32,10 +32,10 @@
     <button id="guessBtn">Submit</button>
     <p id="message"></p>
     <p id="attemptsLeft"></p>
-    <button id="restartBtn">🔁 Play Again</button>
+    <button id="restartBtn" class="hidden">🔁 Play Again</button>
   </div>
 
-  <!-- Sad emoji float effect -->
+  <div id="confetti" class="hidden"></div>
   <div id="sadEmojis" class="hidden">
     <span>😞</span>
     <span>😢</span>
@@ -44,8 +44,8 @@
     <span>🙁</span>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
