@@ -12,22 +12,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const restart = document.getElementById("restartBtn");
   const confetti = document.getElementById("confetti");
   const sadEmojis = document.getElementById("sadEmojis");
+  const cheerSound = document.getElementById("cheerSound");
 
-  const cheerSound = new Audio("cheer.mp3");
+  const confettiLib = window.confetti;
 
   function generateNumber() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function blastConfetti() {
+    // Left blast
+    confettiLib({
+      particleCount: 100,
+      angle: 60,
+      spread: 100,
+      origin: { x: 0 }
+    });
+    // Right blast
+    confettiLib({
+      particleCount: 100,
+      angle: 120,
+      spread: 100,
+      origin: { x: 1 }
+    });
+  }
+
   function endGame(success) {
     input.disabled = true;
     btn.disabled = true;
-    restart.style.display = "inline-block";
+    restart.classList.remove("hidden");
 
     if (success) {
       msg.innerHTML = "🎉 Correct! You guessed the number!";
       confetti.classList.remove("hidden");
       cheerSound.play();
+      blastConfetti();
     } else {
       msg.innerHTML = `😢 Out of attempts! The number was ${numberToGuess}`;
       sadEmojis.classList.remove("hidden");
@@ -60,18 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   restart.addEventListener("click", () => {
-  numberToGuess = generateNumber();
-  attempts = 0;
-  input.value = "";
-  input.disabled = false;
-  btn.disabled = false;
-  msg.textContent = "";
-  left.textContent = `🔄 Attempts Left: ${maxAttempts}`;
-  restart.style.display = "none";
-
-  confetti.classList.add("hidden");
-  sadEmojis.classList.add("hidden");
-  confetti.style.display = "none";      
-  sadEmojis.style.display = "none";     
-});
+    numberToGuess = generateNumber();
+    attempts = 0;
+    input.value = "";
+    input.disabled = false;
+    btn.disabled = false;
+    msg.textContent = "";
+    left.textContent = `🔄 Attempts Left: ${maxAttempts}`;
+    restart.classList.add("hidden");
+    confetti.classList.add("hidden");
+    sadEmojis.classList.add("hidden");
+  });
 });
