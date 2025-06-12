@@ -1,29 +1,30 @@
-const min = 1;
-const max = 100;
-const maxAttempts = 7;
-let attempts = 0;
-let numberToGuess = generateNumber();
+document.addEventListener("DOMContentLoaded", function () {
+  const min = 1;
+  const max = 100;
+  const maxAttempts = 5;
+  let attempts = 0;
+  let numberToGuess = generateNumber();
 
-const input = document.getElementById("guessInput");
-const btn = document.getElementById("guessBtn");
-const msg = document.getElementById("message");
-const left = document.getElementById("attemptsLeft");
-const restart = document.getElementById("restartBtn");
+  const input = document.getElementById("guessInput");
+  const btn = document.getElementById("guessBtn");
+  const msg = document.getElementById("message");
+  const left = document.getElementById("attemptsLeft");
+  const restart = document.getElementById("restartBtn");
 
-function generateNumber() {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-btn.addEventListener("click", () => {
-  const guess = parseInt(input.value);
-  if (isNaN(guess) || guess < min || guess > max) {
-    msg.textContent = "❌ Enter a valid number between 1 and 100!";
-    return;
+  function generateNumber() {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  attempts++;
-  const remaining = maxAttempts - attempts;
-  left.textContent = `🕐 Attempts Left: ${remaining}`;
+  btn.addEventListener("click", () => {
+    const guess = parseInt(input.value);
+    if (isNaN(guess) || guess < min || guess > max) {
+      msg.textContent = "❌ Enter a valid number between 1 and 100!";
+      return;
+    }
+
+    attempts++;
+    const remaining = maxAttempts - attempts;
+    left.textContent = `🔁 Attempts Left: ${remaining}`;
 
   if (guess === numberToGuess) {
     msg.textContent = `🎉 You guessed it right in ${attempts} tries!`;
