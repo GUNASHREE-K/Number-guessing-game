@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const min = 1;
   const max = 100;
   const maxAttempts = 5;
@@ -10,13 +10,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const msg = document.getElementById("message");
   const left = document.getElementById("attemptsLeft");
   const restart = document.getElementById("restartBtn");
+  const confetti = document.getElementById("confetti");
+  const sadEmojis = document.getElementById("sadEmojis");
+
+  const cheerSound = new Audio("cheer.mp3");
 
   function generateNumber() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function endGame(success) {
+    input.disabled = true;
+    btn.disabled = true;
+    restart.style.display = "inline-block";
+
+    if (success) {
+      msg.innerHTML = "🎉 Correct! You guessed the number!";
+      confetti.classList.remove("hidden");
+      cheerSound.play();
+    } else {
+      msg.innerHTML = `😢 Out of attempts! The number was ${numberToGuess}`;
+      sadEmojis.classList.remove("hidden");
+    }
+  }
+
   btn.addEventListener("click", () => {
     const guess = parseInt(input.value);
+
     if (isNaN(guess) || guess < min || guess > max) {
       msg.textContent = "❌ Enter a valid number between 1 and 100!";
       return;
@@ -24,76 +44,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     attempts++;
     const remaining = maxAttempts - attempts;
-    left.textContent = `🔁 Attempts Left: ${remaining}`;
+    left.textContent = `🔄 Attempts Left: ${remaining}`;
 
-  if (guess === numberToGuess) {
-    msg.textContent = `🎉 You guessed it right in ${attempts} tries!`;
-    blastConfetti();
-    gameOver(true);
-  } else if (attempts === maxAttempts) {
-    msg.textContent = `😢 Game Over! The correct number was ${numberToGuess}.`;
-    showSadEmojis();
-    gameOver(false);
-  } else {
-    msg.textContent = guess < numberToGuess ? "📉 Too Low!" : "📈 Too High!";
-  }
+    if (guess === numberToGuess) {
+      endGame(true);
+    } else if (guess < numberToGuess) {
+      msg.textContent = "📉 Too low! Try again.";
+    } else {
+      msg.textContent = "📈 Too high! Try again.";
+    }
 
-  input.value = "";
+    if (attempts >= maxAttempts && guess !== numberToGuess) {
+      endGame(false);
+    }
+  });
+
+  restart.addEventListener("click", () => {
+    numberToGuess = generateNumber();
+    attempts = 0;
+    input.value = "";
+    input.disabled = false;
+    btn.disabled = false;
+    msg.textContent = "";
+    left.textContent = `🔄 Attempts Left: ${maxAttempts}`;
+    restart.style.display = "none";
+    confetti.classList.add("hidden");
+    sadEmojis.classList.add("hidden");
+  });
 });
-
-restart.addEventListener("click", () => {
-  numberToGuess = generateNumber();
-  attempts = 0;
-  msg.textContent = "";
-  left.textContent = "";
-  input.disabled = false;
-  btn.disabled = false;
-  restart.style.display = "none";
-  msg.style.color = "#fff";
-});
-
-function gameOver(success) {
-  input.disabled = true;
-  btn.disabled = true;
-  restart.style.display = "inline-block";
-  msg.style.color = success ? "#00ff88" : "#ff6464";
-}
-
-  function blastConfetti() {
-  // Play cheering sound
-  const cheer = document.getElementById("cheerSound");
-  cheer.currentTime = 0;
-  cheer.play();
-
-  // Confetti blast
-  confetti({
-    particleCount: 100,
-    angle: 60,
-    spread: 100,
-    origin: { x: 0 },
-  });
-
-  confetti({
-    particleCount: 100,
-    angle: 120,
-    spread: 100,
-    origin: { x: 1 },
-  });
-  } 
-}
-
-function showSadEmojis() {
-  const container = document.getElementById("sadEmojis");
-  container.classList.remove("hidden");
-
-  const emojis = container.querySelectorAll("span");
-  emojis.forEach((emoji) => {
-    emoji.style.left = `${Math.random() * 100}%`;
-    emoji.style.top = `${Math.random() * -50}px`;
-  });
-
-  setTimeout(() => {
-    container.classList.add("hidden");
-  }, 6000);
-}
-
