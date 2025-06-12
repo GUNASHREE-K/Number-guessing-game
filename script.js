@@ -60,15 +60,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   restart.addEventListener("click", () => {
-    numberToGuess = generateNumber();
-    attempts = 0;
-    input.value = "";
-    input.disabled = false;
-    btn.disabled = false;
-    msg.textContent = "";
-    left.textContent = `🔄 Attempts Left: ${maxAttempts}`;
-    restart.style.display = "none";
-    confetti.classList.add("hidden");
-    sadEmojis.classList.add("hidden");
-  });
+  numberToGuess = generateNumber();
+  attempts = 0;
+  input.value = "";
+  input.disabled = false;
+  btn.disabled = false;
+  msg.textContent = "";
+  left.textContent = `🔄 Attempts Left: ${maxAttempts}`;
+  restart.style.display = "none";
+
+  confetti.classList.add("hidden");
+  sadEmojis.classList.add("hidden");
+  confetti.style.display = "none";      
+  sadEmojis.style.display = "none";     
+});
 });
