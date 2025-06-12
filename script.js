@@ -58,7 +58,13 @@ function gameOver(success) {
   msg.style.color = success ? "#00ff88" : "#ff6464";
 }
 
-function blastConfetti() {
+  function blastConfetti() {
+  // Play cheering sound
+  const cheer = document.getElementById("cheerSound");
+  cheer.currentTime = 0;
+  cheer.play();
+
+  // Confetti blast
   confetti({
     particleCount: 100,
     angle: 60,
@@ -72,6 +78,7 @@ function blastConfetti() {
     spread: 100,
     origin: { x: 1 },
   });
+  } 
 }
 
 function showSadEmojis() {
