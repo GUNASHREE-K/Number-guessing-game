@@ -9,7 +9,7 @@ Try it here:
 ## 💻 Technologies Used
 - HTML5
 - CSS3
-- JavaScript (Vanilla)
+- JavaScript 
 - GitHub Pages (for deployment)
 
 ## 🎮 Features
